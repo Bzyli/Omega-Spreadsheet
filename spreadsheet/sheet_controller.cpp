@@ -1,27 +1,24 @@
 #include "sheet_controller.h"
+#include <assert.h>
 
+namespace Spreadsheet {
+    SheetController::SheetController(): //Responder * parentResponder
+        ViewController(nullptr) //parentResponder
+        {
+        }
 
-namespace spreadsheet {
-    View* SheetController::view() {
-        return &m_tableView;
+    View * SheetController::view() {
+        return &m_sheetView;
     }
-    SheetController::SheetController(Responder * parentResponder):
-        ViewController(parentResponder),
-        m_tableView(this, this){
+
+    void SheetController::didBecomeFirstResponder() {
     }
-    
-        int SheetController::numberOfRows() const { 
-            return 2;
-        }
 
-        KDCoordinate SheetController::cellHeight() {
-            return 50;
+    bool SheetController::handleEvent(Ion::Events::Event event) {
+        if (event == Ion::Events::OK || event == Ion::Events::EXE) {
+            m_sheetView.changeColor();
+            return true;
         }
-        HighlightCell * SheetController::reusableCell(int index) {
-            return nullptr;
-        }
-
-        int SheetController::reusableCellCount() const {
-            return 8;
-        }
+    return false;
+}
 }
